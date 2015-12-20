@@ -1,5 +1,6 @@
 #include <iostream>
 #include <string>
+#include <exception>
 #include <gtest/gtest.h>
 
 namespace my_test_utils
@@ -8,4 +9,9 @@ namespace my_test_utils
 	{
 		std::cout << msg << std::endl;
 	};
+	
+	void throwException( std::exception& e)
+	{
+		throw e;
+	}
 };
