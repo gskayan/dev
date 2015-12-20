@@ -9,12 +9,12 @@ TEST (Practice, TestGtest)
 };
 TEST(Practice, PrintMessage_DoesNotThrow)
 {
-	EXPECT_NO_THROW(my_test_utils::printMessage("printMessage without Exception"));
+	EXPECT_NO_THROW(my_test_utils::printMessage("printMessage No Exception"));
 }
 TEST(Practice, ThrowException)
 {
 	std::exception e;
-	std::runtime_error rte("This is std::runtime_error");
+	std::runtime_error rte("I am std::runtime_error");
 	ASSERT_THROW(my_test_utils::throwException(e), std::exception);
 	ASSERT_THROW(my_test_utils::throwException(rte), std::exception);
 	ASSERT_THROW(my_test_utils::throwException(rte), std::runtime_error);
@@ -22,7 +22,7 @@ TEST(Practice, ThrowException)
 
 int main(int argc, char* argv[])
 {
-	my_test_utils::printMessage("Hello World");
+	my_test_utils::printMessage("Hello This World");
 	::testing::InitGoogleTest(&argc, argv);
 	return RUN_ALL_TESTS();
 };
