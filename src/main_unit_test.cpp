@@ -1,4 +1,5 @@
 #include "main_unit_test.h"
+#include <thread>
 
 using namespace std;
 
@@ -22,7 +23,9 @@ TEST(Practice, ThrowException)
 
 int main(int argc, char* argv[])
 {
+	std::thread t1(my_test_utils::printMessage, "This is message from thread");
 	my_test_utils::printMessage("Hello This World");
 	::testing::InitGoogleTest(&argc, argv);
+	t1.join();
 	return RUN_ALL_TESTS();
 };
