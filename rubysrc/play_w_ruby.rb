@@ -12,7 +12,7 @@ def checkNum(i)
   end
 end
 
-for i in 1...9 do
+for i in 1...90 do
   checkNum(i)
 end
 $x=0
