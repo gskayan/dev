@@ -14,4 +14,9 @@ namespace my_test_utils
 	{
 		throw e;
 	}
+	void throwRTException( std::exception& e)
+	{
+		throw std::runtime_error(e.what());
+	}
+	
 };
