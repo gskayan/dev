@@ -123,6 +123,19 @@ testcode/fast:
 	$(MAKE) -f CMakeFiles/testcode.dir/build.make CMakeFiles/testcode.dir/build
 .PHONY : testcode/fast
 
+#=============================================================================
+# Target rules for targets named testx
+
+# Build rule for target.
+testx: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 testx
+.PHONY : testx
+
+# fast build rule for target.
+testx/fast:
+	$(MAKE) -f CMakeFiles/testx.dir/build.make CMakeFiles/testx.dir/build
+.PHONY : testx/fast
+
 main_unit_test.o: main_unit_test.cpp.o
 
 .PHONY : main_unit_test.o
@@ -150,6 +163,33 @@ main_unit_test.cpp.s:
 	$(MAKE) -f CMakeFiles/testcode.dir/build.make CMakeFiles/testcode.dir/main_unit_test.cpp.s
 .PHONY : main_unit_test.cpp.s
 
+try_auto.o: try_auto.cpp.o
+
+.PHONY : try_auto.o
+
+# target to build an object file
+try_auto.cpp.o:
+	$(MAKE) -f CMakeFiles/testx.dir/build.make CMakeFiles/testx.dir/try_auto.cpp.o
+.PHONY : try_auto.cpp.o
+
+try_auto.i: try_auto.cpp.i
+
+.PHONY : try_auto.i
+
+# target to preprocess a source file
+try_auto.cpp.i:
+	$(MAKE) -f CMakeFiles/testx.dir/build.make CMakeFiles/testx.dir/try_auto.cpp.i
+.PHONY : try_auto.cpp.i
+
+try_auto.s: try_auto.cpp.s
+
+.PHONY : try_auto.s
+
+# target to generate assembly for a file
+try_auto.cpp.s:
+	$(MAKE) -f CMakeFiles/testx.dir/build.make CMakeFiles/testx.dir/try_auto.cpp.s
+.PHONY : try_auto.cpp.s
+
 # Help Target
 help:
 	@echo "The following are some of the valid targets for this Makefile:"
@@ -159,9 +199,13 @@ help:
 	@echo "... testcode"
 	@echo "... edit_cache"
 	@echo "... rebuild_cache"
+	@echo "... testx"
 	@echo "... main_unit_test.o"
 	@echo "... main_unit_test.i"
 	@echo "... main_unit_test.s"
+	@echo "... try_auto.o"
+	@echo "... try_auto.i"
+	@echo "... try_auto.s"
 .PHONY : help
 
 
