@@ -48,10 +48,10 @@ RM = /Applications/CMake.app/Contents/bin/cmake -E remove -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /Users/gskayan/dev/src
+CMAKE_SOURCE_DIR = /Users/familycomputer/dev/src
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /Users/gskayan/dev
+CMAKE_BINARY_DIR = /Users/familycomputer/dev
 
 #=============================================================================
 # Targets provided globally by CMake.
@@ -80,9 +80,9 @@ rebuild_cache/fast: rebuild_cache
 
 # The main all target
 all: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /Users/gskayan/dev/CMakeFiles /Users/gskayan/dev/CMakeFiles/progress.marks
+	$(CMAKE_COMMAND) -E cmake_progress_start /Users/familycomputer/dev/CMakeFiles /Users/familycomputer/dev/CMakeFiles/progress.marks
 	$(MAKE) -f CMakeFiles/Makefile2 all
-	$(CMAKE_COMMAND) -E cmake_progress_start /Users/gskayan/dev/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /Users/familycomputer/dev/CMakeFiles 0
 .PHONY : all
 
 # The main clean target
