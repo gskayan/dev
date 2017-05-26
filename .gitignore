@@ -1,3 +1,11 @@
+<<<<<<< HEAD
 *#
 *.#*
 *~
+=======
+CMakeFiles/*
+CMakeCache.txt
+*.cmake
+*.tmproj
+*.*~
+>>>>>>> 2281c4cd1e71e376c39e7daf3f34869b21594ea1
