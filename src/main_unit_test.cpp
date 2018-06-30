@@ -21,7 +21,8 @@ TEST(Practice, ThrowException)
 	std::runtime_error rte("I am std::runtime_error");
 	ASSERT_THROW(my_test_utils::throwException(e), std::exception);
 	ASSERT_THROW(my_test_utils::throwException(rte), std::exception);
-	ASSERT_THROW(my_test_utils::throwRTException(rte), std::runtime_error) << "This test expected to fail a test message";
+	ASSERT_THROW(my_test_utils::throwRTException(rte), std::runtime_error) 
+                     << "This test expected to fail a test message";
 }
 
 int main(int argc, char* argv[])
