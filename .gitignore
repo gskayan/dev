@@ -1,4 +1,5 @@
 <<<<<<< HEAD
+<<<<<<< HEAD
 *#
 *.#*
 *~
@@ -9,3 +10,6 @@ CMakeCache.txt
 *.tmproj
 *.*~
 >>>>>>> 2281c4cd1e71e376c39e7daf3f34869b21594ea1
+=======
+*~
+>>>>>>> ddaad5b489dd24bcaa3d0d37e2ffb3361502a111
