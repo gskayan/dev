@@ -14,7 +14,8 @@ J = 0;
 %               You should set J to the cost.
 
 
-
+			  % J = sum((X*theta-y).^2)/(2*length(y));
+J=computeCost(X, y, theta)
 
 
 % =========================================================================
