@@ -42,31 +42,17 @@ async def f(name, delay, iter_count):
 
 loop = asyncio.get_event_loop()
 
-loop2 = asyncio.new_event_loop()
+tasks = [f("one", 1, 100),f("two", 2, 6),f("three", 3, 3)]
 
-print( loop2 is loop )
-
-tasks = [f("one", 1, 10),f("two", 2, 6),f("three", 3, 3)]
-tasks2 = [f("one-1", 1, 10),f("two-2", 2, 6),f("three-3", 3, 3)]
-
-for t in tasks:
-    loop.create_task(t)
+number=10
+for t in range(number):
+    loop.create_task(f(f"task-{t}", float(t/number), 10))
 
 g = asyncio.Task.all_tasks(loop=loop)
-print(g)
-print(type(g))
 fg = asyncio.gather(*g)
-print(type(fg))
-
-for t in tasks2:
-    loop2.create_task(t)
 
 loop.run_until_complete(fg)
 
-loop2.run_until_complete(asyncio.gather(*asyncio.Task.all_tasks(loop=loop2)))
+#loop.stop()
 
-loop.stop()
-loop2.stop()
-
-loop.close()
-loop2.close()
+#loop.close()
