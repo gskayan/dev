@@ -20,6 +20,18 @@ string testRvalue()
 
 struct A_Test
 {
+  A_Test(){};
+  
+  A_Test(const A_Test& other)
+  {
+    cout << "A_Test(const A_Test& other)" << endl;
+  }
+
+  A_Test(A_Test&& other)
+  {
+    cout << "A_Test(A_Test&& other)" << endl;
+  }
+  
   void testRvalue( int&& x)
   {
     x += 8;
@@ -33,10 +45,18 @@ struct A_Test
   };
 };
 
+A_Test&& new_A_Test()
+{
+  return forward<A_Test&&>(A_Test());
+};
+
 int main(int argc, char** argv)
 {
   cout << testRvalue().append(" - Rvalue test") << endl;
   A_Test at;
+
+  A_Test z(at);
+  A_Test w(new_A_Test());
   
   int i = 5;
   at.testRvalue(7);
