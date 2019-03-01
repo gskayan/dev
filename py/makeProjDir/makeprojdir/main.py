@@ -2,7 +2,29 @@ import os
 import sys
 import pathlib
 import inspect
-import json
+
+'''
+Globals
+'''
+PACKAGEMARKER = "__init__.py"
+READMEFILE = "README.md"
+SETUPFILE = "setup.py"
+DATADIR = "data"
+TESTDIR = "test"
+
+MAINCODETEMPLATE=\
+"""
+import inspect\n
+\n
+def main_impl():\n
+\t_n_ = inspect.currentframe().f_code.co_name\n
+\tprint(f\"Starting: {_n_}\")
+\t\'\'\' Your code goes here \'\'\'
+\tprint(f\"Stopping: {_n_}\")
+\n
+if __name__ ==\"__main__\":\n
+\tmain_impl()\n
+"""
 
 def isDirExists(dname):
     p = pathlib.Path(dname)
@@ -13,22 +35,16 @@ def isDirExists(dname):
             return True, p
     return False, p
 
-def createDir(dname:list):
-    try:
-        if( not isDirExists(dname)[0]):
-            os.mkdir(dname)
-        else:
-            print(f"Directory {dname} exists")
-    except:
-        print("Failed to create dir {0}. Error: {1}".format(dname, sys.exc_info()))
-       
+      
 def createDir(pathparts):
+    
+    path = "/".join(pathparts)
     try:
-        path = "/".join(pathparts)
-        os.makedirs(path)
-        return path
+        os.makedirs(path, exist_ok=True)
     except:
         print("{0} - error : {1}".format(inspect.currentframe().f_code.co_name, sys.exc_info()))
+    else:
+        return path        
 
 def createFile(dname:str, fname:str):
     r, p = isDirExists(dname)
@@ -46,28 +62,28 @@ def createFile(dname:str, fname:str):
             
 def main_impl():
     try:
-        rootDir = "mytestProj"
-        packageMarker = "__init__.py"
-        readmeFile = "README.md"
-        setupFile = "setup.py"
-        projDir = "test_projdir"
+        ''' convert to commad line arguments '''
+        
+        rootDir = "json_playbox"
+        projDir = "playwithjson"
         mainFile = "main.py"
-        dataDir = "data"
-        testDir = "test"
         testMainFile = "test_main.py"
 
-        createFile(rootDir, readmeFile)
-        createFile(rootDir, setupFile)
-        path = createDir([rootDir, projDir ,dataDir])
-        createFile(path, packageMarker)
+        path = createDir([rootDir])
+        createFile(path, READMEFILE)
+        createFile(path, SETUPFILE)
+        path = createDir([rootDir, projDir])
+        createFile(path, PACKAGEMARKER)
         createFile(path, mainFile)
-        path = createDir([rootDir, projDir, testDir])
-        createFile(path, packageMarker)
+        path = createDir([rootDir, projDir ,DATADIR])
+        path = createDir([rootDir, projDir, TESTDIR])
+        createFile(path, PACKAGEMARKER)
         createFile(path, testMainFile)
+        with open("/".join([rootDir, projDir, mainFile]), 'w') as f:
+                   f.write(MAINCODETEMPLATE)
     except:
         print("Error in {0} : {1}".format(inspect.currentframe().f_code.co_name,
                                           sys.exc_info()))
         
 if __name__ == "__main__":
-    
     main_impl()
