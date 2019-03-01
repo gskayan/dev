@@ -59,6 +59,11 @@ def createFile(dname:str, fname:str):
             p.touch()
         else:
             print(f"Invalid directory {dname}")
+
+def writeTemplateMain(filepath):
+        with open(filepath, 'w') as f:
+            f.write(MAINCODETEMPLATE)
+    
             
 def main_impl():
     try:
@@ -69,18 +74,21 @@ def main_impl():
         mainFile = "main.py"
         testMainFile = "test_main.py"
 
-        path = createDir([rootDir])
+        path = rootDir
         createFile(path, READMEFILE)
         createFile(path, SETUPFILE)
+        
         path = createDir([rootDir, projDir])
         createFile(path, PACKAGEMARKER)
         createFile(path, mainFile)
-        path = createDir([rootDir, projDir ,DATADIR])
+        writeTemplateMain("/".join([path, mainFile]))
+        
         path = createDir([rootDir, projDir, TESTDIR])
         createFile(path, PACKAGEMARKER)
         createFile(path, testMainFile)
-        with open("/".join([rootDir, projDir, mainFile]), 'w') as f:
-                   f.write(MAINCODETEMPLATE)
+        
+        path = createDir([rootDir, projDir ,DATADIR])
+        
     except:
         print("Error in {0} : {1}".format(inspect.currentframe().f_code.co_name,
                                           sys.exc_info()))
