@@ -1,15 +1,11 @@
-<<<<<<< HEAD
-<<<<<<< HEAD
 *#
 *.#*
 *~
-=======
 CMakeFiles/*
 CMakeCache.txt
 *.cmake
 *.tmproj
 *.*~
->>>>>>> 2281c4cd1e71e376c39e7daf3f34869b21594ea1
-=======
-*~
->>>>>>> ddaad5b489dd24bcaa3d0d37e2ffb3361502a111
+*__pycache__/
+*octave/*
+quickfix/

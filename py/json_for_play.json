@@ -1,0 +1,106 @@
+{
+  "patternId": 9,
+  "serviceType": "ApaContentFilter",
+  "enabled": true,
+  "zones": [
+    "pod1",
+    "pod2"
+  ],
+  "config": {
+    "input": [
+      {
+        "endpointIn": {
+          "kafka": {
+            "topic": "prod-bci-apa-posttrade-bus-in",
+            "consumerGroup": "ApaContentFilter-9",
+            "deduplicate": false,
+            "retry": -1,
+            "partitioner": {
+              "default": true
+            },
+            "consumerParameters": null
+          },
+          "encoding": [],
+          "transport": {
+            "kafka": {
+              "topic": "prod-bci-apa-posttrade-bus-in",
+              "partitioner": {
+                "default": true
+              },
+              "consumerGroup": "ApaContentFilter-9",
+              "consumerParameters": null
+            }
+          }
+        }
+      }
+    ],
+    "output": [
+      {
+        "endpointOut": {
+          "kafka": {
+            "topic": "prod-bci-apa-pat9-out",
+            "deduplicate": false,
+            "retry": -1,
+            "partitioner": {
+              "default": true
+            }
+          },
+          "encoding": [],
+          "transport": {
+            "kafka": {
+              "topic": "prod-bci-apa-pat9-out",
+              "partitioner": {
+                "default": true
+              }
+            },
+            "producerParameters": null
+          }
+        }
+      },
+      {
+        "endpointDL": {
+          "kafka": {
+            "topic": "prod-bci-apa-pat9-dl",
+            "deduplicate": false,
+            "retry": -1,
+            "partitioner": {
+              "default": true
+            }
+          },
+          "encoding": [],
+          "transport": {
+            "kafka": {
+              "topic": "prod-bci-apa-pat9-dl",
+              "partitioner": {
+                "default": true
+              }
+            },
+            "producerParameters": null
+          }
+        }
+      }
+    ],
+    "rule": {
+      "camelContext": "<beans xmlns=\"http://www.springframework.org/schema/beans\" xmlns:context=\"http://www.springframework.org/schema/context\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:schemaLocation=\"http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://camel.apache.org/schema/spring http://camel.apache.org/schema/spring/camel-spring.xsd\"><bean class=\"com.bloomberg.bci.bcirt.camelcore.camel.processors.BciMessageUnpackProcessor\" id=\"BciMessageUnpackProcessor\"><constructor-arg value=\"true\"/></bean><bean class=\"com.bloomberg.bci.bcirt.camelcore.camel.processors.FixToJsonDecodeProcessor\" id=\"FixToJsonDecodeProcessor\"><constructor-arg value=\"/FIX50SP2.modified.APA.0.2.xml\"/></bean><bean class=\"com.bloomberg.bci.bcirt.camelcore.camel.processors.BciLoggerProcessor\" id=\"BciLoggerProcessor\"><constructor-arg index=\"0\" type=\"java.lang.String\" value=\"req.arrived\"/></bean><bean class=\"com.bloomberg.bci.bcirt.camelcore.camel.processors.BciLoggerProcessor\" id=\"BciLoggerProcessorError\"><constructor-arg index=\"0\" type=\"java.lang.String\" value=\"req.error\"/></bean><bean class=\"com.bloomberg.bci.bcirt.camelcore.camel.processors.BciLoggerProcessor\" id=\"BciLoggerProcessorSuccess\"><constructor-arg index=\"0\" type=\"java.lang.String\" value=\"req.sent.success\"/></bean><bean class=\"com.bloomberg.bci.bcirt.camelcore.camel.processors.BciLoggerProcessor\" id=\"BciLoggerProcessorFiltered\"><constructor-arg index=\"0\" type=\"java.lang.String\" value=\"req.filtered\"/></bean><bean class=\"com.bloomberg.bci.bcirt.camelcore.camel.processors.JsonToFixEncodeProcessor\" id=\"JsonToFixEncodeProcessor\"><constructor-arg value=\"/FIX50SP2.modified.APA.0.2.xml\"/><constructor-arg value=\"false\"/></bean><bean class=\"com.bloomberg.bci.bcirt.camelcore.camel.processors.BciMessagePackProcessor\" id=\"BciMessagePackProcessor\"><constructor-arg value=\"utf8\"/></bean><bean class=\"com.bloomberg.bci.bcirt.camelcore.camel.processors.JsonSetValue\" id=\"SetSenderCompId\"><constructor-arg index=\"0\" type=\"java.lang.String\" value=\"FIXMessageHeader.SenderCompID\"/><constructor-arg index=\"1\" type=\"java.lang.String\" value=\"acceptanceTestSender\"/></bean><bean class=\"com.bloomberg.bci.bcirt.camelcore.camel.processors.JsonSetValue\" id=\"SetTargetCompId\"><constructor-arg index=\"0\" type=\"java.lang.String\" value=\"FIXMessageHeader.TargetCompID\"/><constructor-arg index=\"1\" type=\"java.lang.String\" value=\"acceptanceTestTarget\"/></bean><camelContext xmlns=\"http://camel.apache.org/schema/spring\"><route><from uri=\"direct:endpointIn\"/><onException><exception>java.lang.Exception</exception><redeliveryPolicy logExhausted=\"false\" logStackTrace=\"false\" maximumRedeliveries=\"0\"/><handled><constant>true</constant></handled><process ref=\"BciLoggerProcessorError\"/><to uri=\"direct:endpointDL\"/></onException><process ref=\"BciMessageUnpackProcessor\"/><process ref=\"FixToJsonDecodeProcessor\"/><process ref=\"BciLoggerProcessor\"/><setHeader headerName=\"name_Currency\"><jsonpath>$.Currency</jsonpath></setHeader><setHeader headerName=\"value_Currency0\"><constant>EUR</constant></setHeader><setHeader headerName=\"name_CountryOfIssue\"><jsonpath>$.CountryOfIssue</jsonpath></setHeader><setHeader headerName=\"value_CountryOfIssue0\"><constant>AU</constant></setHeader><setHeader headerName=\"name_AssetClass\"><jsonpath>$.AssetClass</jsonpath></setHeader><setHeader headerName=\"value_AssetClass0\"><constant>1</constant></setHeader><setHeader headerName=\"value_AssetClass1\"><constant>2</constant></setHeader><choice><when><simple>${in.header.name_Currency} in '${in.header.value_Currency0}' and ${in.header.name_CountryOfIssue} in '${in.header.value_CountryOfIssue0}' and ${in.header.name_AssetClass} in '${in.header.value_AssetClass0},${in.header.value_AssetClass1}'</simple><process ref=\"SetSenderCompId\"/><process ref=\"SetTargetCompId\"/><process ref=\"JsonToFixEncodeProcessor\"/><process ref=\"BciMessagePackProcessor\"/><process ref=\"BciLoggerProcessorSuccess\"/><to uri=\"direct:endpointOut\"/></when><otherwise><process ref=\"BciLoggerProcessorFiltered\"/></otherwise></choice></route></camelContext></beans>"
+    }
+  },
+  "owner": {
+    "PWHO": 2857015
+  },
+  "creationTime": "2017-08-16T22:52:37.966388Z",
+  "createdByUuid": 18020682,
+  "enablementChangeTime": null,
+  "enablementChangedByUuid": null,
+  "version": 0,
+  "id": 9,
+  "links": [
+    {
+      "rel": "9",
+      "href": "https://bci-bus-prod.prod.bloomberg.com/ibus/api/v1/configuration/patterns/ids/9/versions/0"
+    },
+    {
+      "rel": "self",
+      "href": "https://bci-bus-prod.prod.bloomberg.com/ibus/api/v1/configuration/services/ids/9/versions/0"
+    }
+  ]
+}
