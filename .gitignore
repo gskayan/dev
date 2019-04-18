@@ -9,3 +9,4 @@ CMakeCache.txt
 *__pycache__/
 *octave/*
 quickfix/
+*.pyc

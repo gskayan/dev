@@ -1,6 +1,3 @@
-import os
-import sys
-import pathlib
 import inspect
 
 '''
@@ -25,47 +22,11 @@ def main_impl():\n
 if __name__ ==\"__main__\":\n
 \tmain_impl()\n
 """
-
-def isDirExists(dname):
-    p = pathlib.Path(dname)
-    if( p.exists()):
-        if( not p.is_dir() ):
-            print(f"{dname} exists but it is not a directory")
-        else:
-            return True, p
-    return False, p
-
-      
-def createDir(pathparts):
-    
-    path = "/".join(pathparts)
-    try:
-        os.makedirs(path, exist_ok=True)
-    except:
-        print("{0} - error : {1}".format(inspect.currentframe().f_code.co_name, sys.exc_info()))
-    else:
-        return path        
-
-def createFile(dname:str, fname:str):
-    r, p = isDirExists(dname)
-    if( r ):
-        p = p.joinpath(fname)
-        p.touch()
-    else:
-        path = createDir(list(pathlib.PurePath(dname).parts))
-        r, p = isDirExists(path)
-        if( r ):
-            p = p.joinpath(fname)
-            p.touch()
-        else:
-            print(f"Invalid directory {dname}")
-
-def writeTemplateMain(filepath):
-        with open(filepath, 'w') as f:
-            f.write(MAINCODETEMPLATE)
-    
-            
+                
 def main_impl():
+
+    import fileutils as fu
+
     try:
         ''' convert to commad line arguments '''
         
@@ -75,19 +36,24 @@ def main_impl():
         testMainFile = "test_main.py"
 
         path = rootDir
-        createFile(path, READMEFILE)
-        createFile(path, SETUPFILE)
+        fu.createFile(path, READMEFILE)
+        fu.createFile(path, SETUPFILE)
         
-        path = createDir([rootDir, projDir])
-        createFile(path, PACKAGEMARKER)
-        createFile(path, mainFile)
+        path = fu.createDir([rootDir, projDir])
+        fu.createFile(path, PACKAGEMARKER)
+        fu.createFile(path, mainFile)
+
+        def writeTemplateMain(filepath):
+            with open(filepath, 'w') as f:
+                f.write(MAINCODETEMPLATE)
+
         writeTemplateMain("/".join([path, mainFile]))
         
-        path = createDir([rootDir, projDir, TESTDIR])
-        createFile(path, PACKAGEMARKER)
-        createFile(path, testMainFile)
+        path = fu.createDir([rootDir, projDir, TESTDIR])
+        fu.createFile(path, PACKAGEMARKER)
+        fu.createFile(path, testMainFile)
         
-        path = createDir([rootDir, projDir ,DATADIR])
+        path = fu.createDir([rootDir, projDir ,DATADIR])
         
     except:
         print("Error in {0} : {1}".format(inspect.currentframe().f_code.co_name,
