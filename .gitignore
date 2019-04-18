@@ -10,3 +10,11 @@ CMakeCache.txt
 *octave/*
 quickfix/
 *.pyc
+kafka/
+dists*
+tmp/
+binary-*/
+source/
+.distribution.conf
+.inherit.conf
+.refroot.conf
