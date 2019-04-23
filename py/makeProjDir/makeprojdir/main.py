@@ -1,4 +1,5 @@
 import inspect
+import sys
 
 '''
 Globals
@@ -28,12 +29,23 @@ def main_impl():
     import fileutils as fu
 
     try:
-        ''' convert to commad line arguments '''
-        
-        rootDir = "json_playbox"
-        projDir = "playwithjson"
-        mainFile = "main.py"
-        testMainFile = "test_main.py"
+        import argparse
+        pp = argparse.ArgumentParser(description="New project dir names")
+        '''try:'''
+        pp.add_argument("rootDir", metavar="root_dir", type=str, help="Project root directory name")
+        pp.add_argument("projDir", metavar="package_dir", type=str, help="Project package directory name")
+        pp.add_argument("--mainfile", default="main.py", help="Name of the main() function file (default: main.py)")
+        pp.add_argument("--test_mainfile", default="test_main.py", help="Name of the test/pytest main() function file default: test_main.py")
+        params = pp.parse_args()
+        '''except Exception as e:
+            print(type(e))
+            return
+        '''
+        print(f"Parsed arguments - {0}".format(params))
+        rootDir = params.rootDir
+        projDir = params.projDir
+        mainFile = params.mainfile
+        testMainFile = params.test_mainfile
 
         path = rootDir
         fu.createFile(path, READMEFILE)
@@ -54,8 +66,8 @@ def main_impl():
         fu.createFile(path, testMainFile)
         
         path = fu.createDir([rootDir, projDir ,DATADIR])
-        
-    except:
+    
+    except Exception:
         print("Error in {0} : {1}".format(inspect.currentframe().f_code.co_name,
                                           sys.exc_info()))
         
