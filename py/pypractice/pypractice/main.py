@@ -2,7 +2,13 @@ import inspect
 import sys
 import argparse
 
+def print_func_name(f):
+        def runit(*args, **kwargs):
+                print("Running %s" % f.__name__)
+                f(*args, **kwargs)
+        return runit
 
+@print_func_name
 def getprimelist():
         num = int(input("Enter a number: "))
         primes = []
@@ -12,22 +18,27 @@ def getprimelist():
                         primes.append(i)
         print(f"Primes up to {num} are [{primes}]")
 
+@print_func_name
 def mergelists():
         delim=","
         a_str = input(f"Enter first list range <start>{delim}<end>{delim}[<step>] : ")
         b_str = input(f"Enter second list range <start>{delim}<end>{delim}[<step>] : ")
 
         def str2rangeArgs( s:str, delim:str ):
+                params = s
                 try:
-                        intlist = [int(i) for i in s.split(delim)]
+                        intlist = [int(i) for i in s.split(delim) if len(i.strip()) > 0]
                 except ValueError as ve:
-                        raise ValueError(f"Can not process input string : '{s}'. Please follow format")
+                        raise ValueError(f"Can not process input string : '{params}'. Please follow format")
+
+                if len(intlist) < 2:
+                        raise Exception(f"Can not generate range arguments from string : '{params}'")
                 if 2 == len(intlist):
                         return [*range(intlist[0], intlist[1])]
                 elif 3 >= len(intlist):
                         return [*range(intlist[0], intlist[1], intlist[2])]                        
                 else:
-                        raise Exception(f"Can not generate range arguments from string : '{s}'")
+                        raise Exception(f"Can not generate range arguments from string : '{params}'")
 
         a = str2rangeArgs(a_str, delim)
         b = str2rangeArgs(b_str, delim)
