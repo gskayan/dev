@@ -1,3 +1,5 @@
+#!/opt/bb/bin/python3.7
+
 import inspect
 import sys
 import argparse
@@ -46,9 +48,39 @@ def mergelists():
         res= [*set([*a, *b])]
         print(f"New list : {res}")
 
+def randomguess():
+        import random
+        comp_range = [*range(1,10)]
+        while True:
+                try:
+                        rn = random.randint(1,9)
+                        un = int(input(f"Number in {comp_range} inclusive range : "))
+                        if un not in comp_range:
+                                raise ValueError(f"Number {un} is not in expected range {comp_range}")
+                        diff = un - rn
+                        if 0 < diff:
+                                print(f"Bad guess {un} < {rn}. Try again")
+                                continue
+                        elif 0 > diff:
+                                print(f"Bad guess {un} > {rn}. Try again")
+                                continue
+                        else:
+                                print(f"Good guess {un} == {rn}")
+                                resp = input("Play more? (y/n)")
+                                if "y" == resp.lower():
+                                        continue
+                                else:
+                                        print("Good game!")
+                                        break
+                except ValueError as ve:
+                        print(str(ve) + " Try again")
+                        continue
+                else:
+                        raise Exception("Something else is wrong")
 
 FUNCLIST={"primelist":getprimelist, 
-          "mergelists":mergelists
+          "mergelists":mergelists,
+          "randomguess":randomguess
 }
 
 def main_impl():
