@@ -1,27 +1,33 @@
 #!/opt/bb/bin/python3.7
 
 
+import argparse
 import inspect
 import sys
-import argparse
+import functools
 
 
 def print_func_name(f):
+    @functools.wraps(f)
     def runit(*args, **kwargs):
         print("Running %s" % f.__name__)
         f(*args, **kwargs)
-        return runit
+    return runit
 
 
-@print_func_name
-def getprimelist():
-    num = int(input("Enter a number: "))
+def _generate_prime_list(num: int):
     primes = []
     for i in range(1, num+1):
         r = [d for d in range(1, num+1) if i % d == 0]
         if 2 == len(r) and 1 == r[0] and i == r[1]:
             primes.append(i)
-            print(f"Primes up to {num} are [{primes}]")
+    return primes
+
+@print_func_name
+def getprimelist():
+    num = int(input("Enter a number: "))
+    primes = _generate_prime_list(num)
+    print(f"Primes up to {num} are [{primes}]")
 
 
 @print_func_name
@@ -46,8 +52,8 @@ def mergelists():
         else:
             raise Exception(f"Range generation failed: '{params}'")
 
-    a = str2rangeArgs(a_str, delim)
-    b = str2rangeArgs(b_str, delim)
+    a = str2rangeArgs(a_str, d)
+    b = str2rangeArgs(b_str, d)
 
     res = [*set([*a, *b])]
     print(f"New list : {res}")
@@ -77,11 +83,11 @@ def randomguess():
                     else:
                         print("Good game!")
                         break
-                    except ValueError as ve:
-                        print(str(ve) + " Try again")
-                        continue
-                    else:
-                        raise Exception("Something else is wrong")
+        except ValueError as ve:
+            print(str(ve) + " Try again")
+            continue
+        else:
+            raise Exception("Something else is wrong")
 
 
 FUNCLIST = {"primelist": getprimelist,
@@ -99,6 +105,8 @@ def main_impl():
                     help="Run funciton from the list")
     params = pp.parse_args()
     funcname = params.run
+
+    print(FUNCLIST)
 
     if funcname is not None:
         FUNCLIST[funcname]()
