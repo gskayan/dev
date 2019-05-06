@@ -45,25 +45,25 @@ def randomguess():
             un = int(input(f"Number in {comp_range} inclusive range : "))
             if un not in comp_range:
                 raise ValueError(f"'{un}' out of range {comp_range}")
-                diff = un - rn
-                if 0 < diff:
-                    print(f"Bad guess {un} < {rn}. Try again")
-                    continue
-                elif 0 > diff:
-                    print(f"Bad guess {un} > {rn}. Try again")
+            diff = un - rn
+            if 0 < diff:
+                print(f"Bad guess {un} < {rn}. Try again")
+                continue
+            elif 0 > diff:
+                print(f"Bad guess {un} > {rn}. Try again")
+                continue
+            else:
+                print(f"Good guess {un} == {rn}")
+                resp = input("Play more? (y/n)")
+                if "y" == resp.lower():
                     continue
                 else:
-                    print(f"Good guess {un} == {rn}")
-                    resp = input("Play more? (y/n)")
-                    if "y" == resp.lower():
-                        continue
-                    else:
-                        print("Good game!")
-                        break
+                    print("Good game!")
+                    break
         except ValueError as ve:
             print(str(ve) + " Try again")
             continue
-        else:
+        except Exception as e:
             raise Exception("Something else is wrong")
 
 
