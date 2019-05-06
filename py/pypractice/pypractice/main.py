@@ -19,7 +19,7 @@ def print_func_name(f):
 @print_func_name
 def getprimelist():
     num = int(input("Enter a number: "))
-    primes = mypf._generate_prime_list(num)
+    primes = mypf.generate_prime_list(num)
     print(f"Primes up to {num} are [{primes}]")
 
 
@@ -29,8 +29,8 @@ def mergelists():
     a_str = input(f"Enter first list range <start>{d}<end>{d}[<step>]:")
     b_str = input(f"Enter second list range <start>{d}<end>{d}[<step>]:")
 
-    a = mypf.str2rangeArgs(a_str, d)
-    b = mypf.str2rangeArgs(b_str, d)
+    a = mypf.str2range(a_str, d)
+    b = mypf.str2range(b_str, d)
 
     res = [*set([*a, *b])]
     print(f"New list : {res}")
