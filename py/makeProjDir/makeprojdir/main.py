@@ -1,6 +1,7 @@
 import inspect
 import sys
 
+
 '''
 Globals
 '''
@@ -10,7 +11,7 @@ SETUPFILE = "setup.py"
 DATADIR = "data"
 TESTDIR = "test"
 
-MAINCODETEMPLATE=\
+MAINCODETEMPLATE =
 """
 import inspect\n
 \n
@@ -23,19 +24,28 @@ def main_impl():\n
 if __name__ ==\"__main__\":\n
 \tmain_impl()\n
 """
-                
+
+
 def main_impl():
-
     import fileutils as fu
-
     try:
         import argparse
         pp = argparse.ArgumentParser(description="New project dir names")
         '''try:'''
-        pp.add_argument("rootDir", metavar="root_dir", type=str, help="Project root directory name")
-        pp.add_argument("projDir", metavar="package_dir", type=str, help="Project package directory name")
-        pp.add_argument("--mainfile", default="main.py", help="Name of the main() function file (default: main.py)")
-        pp.add_argument("--test_mainfile", default="test_main.py", help="Name of the test/pytest main() function file default: test_main.py")
+        pp.add_argument("rootDir",
+                        metavar="root_dir",
+                        type=str,
+                        help="Project root directory name")
+        pp.add_argument("projDir",
+                        metavar="package_dir",
+                        type=str,
+                        help="Project package directory name")
+        pp.add_argument("--mainfile",
+                        default="main.py",
+                        help="main() file (default:main.py)")
+        pp.add_argument("--test_mainfile",
+                        default="test_main.py",
+                        help="test/pytest main() file (default:test_main.py)!")
         params = pp.parse_args()
         '''except Exception as e:
             print(type(e))
@@ -50,7 +60,7 @@ def main_impl():
         path = rootDir
         fu.createFile(path, READMEFILE)
         fu.createFile(path, SETUPFILE)
-        
+
         path = fu.createDir([rootDir, projDir])
         fu.createFile(path, PACKAGEMARKER)
         fu.createFile(path, mainFile)
@@ -60,16 +70,17 @@ def main_impl():
                 f.write(MAINCODETEMPLATE)
 
         writeTemplateMain("/".join([path, mainFile]))
-        
+
         path = fu.createDir([rootDir, projDir, TESTDIR])
         fu.createFile(path, PACKAGEMARKER)
         fu.createFile(path, testMainFile)
-        
-        path = fu.createDir([rootDir, projDir ,DATADIR])
-    
+
+        path = fu.createDir([rootDir, projDir, DATADIR])
+
     except Exception:
-        print("Error in {0} : {1}".format(inspect.currentframe().f_code.co_name,
-                                          sys.exc_info()))
-        
+        print(f"Error in {0}:{1}".format(inspect.currentframe().f_code.co_name,
+                                         sys.exc_info()))
+
+
 if __name__ == "__main__":
     main_impl()
