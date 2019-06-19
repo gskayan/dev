@@ -2,8 +2,14 @@ import pytest
 import os
 import sys
 
+try:
+    import mypracticefuncs as myf
+except ModuleNotFoundError:
+    sys.path.append(os.path.join(os.path.dirname(os.path.abspath(__name__)), "../"))
+    import mypracticefuncs as myf
 
-import mypracticefuncs as myf
+for i in sys.modules:
+    print(i)
 
 
 def testgenerate_prime_list_empty():
