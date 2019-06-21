@@ -35,5 +35,3 @@ def str2range(s: str, delim: str):
         return [*range(intlist[0], intlist[1])]
     elif 3 >= len(intlist):
         return [*range(intlist[0], intlist[1], intlist[2])]
-    else:
-        raise Exception(f"Range generation failed: '{params}'")
