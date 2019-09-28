@@ -5,7 +5,10 @@ import argparse
 import functools
 import inspect
 import mypracticefuncs as mypf
-import sys
+<<<<<<< HEAD
+
+=======
+>>>>>>> 695571137713a583a676cafb8b543db8cdf83bb5
 
 
 def print_func_name(f):

@@ -1,0 +1,12 @@
+{
+  "config": [
+    {
+      "mode": "run_commandHander",
+      "active": true
+    },
+    {
+      "mode": "other",
+      "active": false
+    }
+  ]
+}
