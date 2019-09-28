@@ -1,6 +1,5 @@
 import sys
 import re
-import dateutils
 import fileutils
 
 

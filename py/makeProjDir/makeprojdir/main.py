@@ -11,8 +11,7 @@ SETUPFILE = "setup.py"
 DATADIR = "data"
 TESTDIR = "test"
 
-MAINCODETEMPLATE =
-"""
+MAINCODETEMPLATE = """\
 import inspect\n
 \n
 def main_impl():\n
